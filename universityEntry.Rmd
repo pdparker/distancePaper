@@ -1,0 +1,82 @@
+---
+title: "University Entry"
+author: "Blinded For Review"
+date: "28 May 2015"
+output:
+  html_document:
+    toc: true
+    theme: journal
+    number_sections: true
+  md_document:
+    toc: true 
+---
+
+Log Distance to Any University
+-------------------------------
+
+```{r prelim, echo=FALSE, warning=FALSE, message=FALSE}
+library(survey)
+library(knitr)
+library(mitools)
+setwd("~/Dropbox/Projects_Research/distancePaper/")
+load("complexData.RData")
+```
+
+
+```{r m1, echo=FALSE, warning=FALSE, message=FALSE, results='asis'}
+MexpectDany <- MIcombine(with(dclust,
+			svyglm(inUni ~ log(dAny) + pv1math + pv1read + 
+				   	pv1scie + escs + indig + sex + cohort+
+				   	escs:log(dAny), family = binomial
+					)
+			)
+)
+
+sink("/dev/null"); out <- summary(MexpectDany); sink()
+kable(out, format = "markdown", padding = 2, digits = 3)
+```
+
+Log Distance to an Elite University
+-------------------------------
+```{r m2, echo=FALSE, warning=FALSE, message=FALSE, results='asis'}
+MexpectDany <- MIcombine(with(dclust,
+			svyglm(inUni ~ log(dGo8) + pv1math + pv1read + 
+				   	pv1scie + escs + indig + sex + cohort+
+				   	escs:log(dGo8), family = binomial
+					)
+			)
+)
+
+sink("/dev/null"); out <- summary(MexpectDany); sink()
+kable(out, format = "markdown", padding = 2, digits = 3)
+```
+
+Number of Universities in Proximity
+-------------------------------
+```{r m3, echo=FALSE, warning=FALSE, message=FALSE, results='asis'}
+MexpectDany <- MIcombine(with(dclust,
+			svyglm(inUni ~ pAny + pv1math + pv1read + 
+				   	pv1scie + escs + indig + sex + cohort+
+				   	escs:pAny, family = binomial
+					)
+			)
+)
+
+sink("/dev/null"); out <- summary(MexpectDany); sink()
+kable(out, format = "markdown", padding = 2, digits = 3)
+```
+
+Number of Elite Universities in Proximity
+-------------------------------
+```{r m4, echo=FALSE, warning=FALSE, message=FALSE, results='asis'}
+MexpectDany <- MIcombine(with(dclust,
+			svyglm(inUni ~ pGo8 + pv1math + pv1read + 
+				   	pv1scie + escs + indig + sex + cohort+
+				   	escs:pGo8, family = binomial
+					)
+			)
+)
+
+sink("/dev/null"); out <- summary(MexpectDany); sink()
+kable(out, format = "markdown", padding = 2, digits = 3)
+```
