@@ -25,9 +25,8 @@ load("complexData.RData")
 
 ```{r m1, echo=FALSE, warning=FALSE, message=FALSE, results='asis'}
 MexpectDany <- MIcombine(with(dclust,
-			svyglm(inUni ~ log(dAny) + pv1math + pv1read + 
-				   	pv1scie + escs + indig + sex + cohort+
-				   	escs:log(dAny), family = binomial
+			svyglm(inUni ~ I(log(dAny+1)) + ach + escs + indig + sex + cohort+
+				   	escs:I(log(dAny+1)), family = binomial
 					)
 			)
 )
@@ -40,9 +39,8 @@ Log Distance to an Elite University
 -------------------------------
 ```{r m2, echo=FALSE, warning=FALSE, message=FALSE, results='asis'}
 MexpectDany <- MIcombine(with(dclust,
-			svyglm(inUni ~ log(dGo8) + pv1math + pv1read + 
-				   	pv1scie + escs + indig + sex + cohort+
-				   	escs:log(dGo8), family = binomial
+			svyglm(inUni ~ I(log(dGo8+1)) + ach + escs + indig + sex + cohort+
+				   	escs:I(log(dGo8+1)), family = binomial
 					)
 			)
 )
@@ -55,8 +53,7 @@ Number of Universities in Proximity
 -------------------------------
 ```{r m3, echo=FALSE, warning=FALSE, message=FALSE, results='asis'}
 MexpectDany <- MIcombine(with(dclust,
-			svyglm(inUni ~ pAny + pv1math + pv1read + 
-				   	pv1scie + escs + indig + sex + cohort+
+			svyglm(inUni ~ pAny + ach + escs + indig + sex + cohort+
 				   	escs:pAny, family = binomial
 					)
 			)
@@ -70,8 +67,7 @@ Number of Elite Universities in Proximity
 -------------------------------
 ```{r m4, echo=FALSE, warning=FALSE, message=FALSE, results='asis'}
 MexpectDany <- MIcombine(with(dclust,
-			svyglm(inUni ~ pGo8 + pv1math + pv1read + 
-				   	pv1scie + escs + indig + sex + cohort+
+			svyglm(inUni ~ pGo8 + ach + escs + indig + sex + cohort+
 				   	escs:pGo8, family = binomial
 					)
 			)

@@ -112,7 +112,8 @@ SES <- dbGetQuery(census, "SELECT * FROM SES")
 myData <- merge(myData, SES, by.x = "PC2003", by.y = "Postal Area",  all.x = TRUE)
 myData$IEO <- as.numeric(myData$IEO)
 
-myData <- cbind.data.frame(myData)
+load("/Users/phparker/Dropbox/Databases/LSAY_DATSETS/institutions.RData")
+myData <- merge(myData, institution[,c("id", "go8")], by = "id")
 
 #drop tasmania
 #myData <- myData[myData$state != 7,]
@@ -121,7 +122,7 @@ MI <- amelia(myData[,-c(24:29, 38:40)],m = 5, idvars = c("id","PC2003", "schooli
 											 "pv2math", "pv2read", "pv2scie", "pv3math",
 											 "pv3read", "pv3scie", "pv4math", "pv4read",
 											 "pv4scie", "pv5math", "pv5read", "pv5scie"),
-			 ords = c("laa005", "pAny", "pGo8", "inUni"), noms = c("loc", "state"),
+			 ords = c("laa005", "pAny", "pGo8", "inUni", "go8"), noms = c("loc", "state"),
 			 bounds = rbind(c(28,0,Inf),c(29,0,Inf),c(30,0,Inf),c(31,0,Inf)))
 a <- MI$imputations
 for ( i in 1:5){
@@ -133,7 +134,6 @@ a <- imputationList(a)
 dclust <- svrepdesign(ids = ~1, weights = ~w_fstuwt, repweights = brr[,-1], 
 					  type = "Fay", data = a, rho = 0.5)
 dclust <- subset(dclust, state != 7, all=TRUE)
-
 
 save(dclust, file = "~/Dropbox/Projects_Research/distancePaper/complexData.RData")
 
