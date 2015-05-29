@@ -115,7 +115,9 @@ myData$IEO <- as.numeric(myData$IEO)
 load("/Users/phparker/Dropbox/Databases/LSAY_DATSETS/institutions.RData")
 myData <- merge(myData, institution[,c("id", "go8")], by = "id")
 
-#drop tasmania
+
+#EGP translation
+
 #myData <- myData[myData$state != 7,]
 
 MI <- amelia(myData[,-c(24:29, 38:40)],m = 5, idvars = c("id","PC2003", "schoolid", "w_fstuwt",
